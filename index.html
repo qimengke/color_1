@@ -1,0 +1,123 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>cxColor 颜色选择器 &raquo; 在线演示 - 前端开发仓库</title>
+<link rel="stylesheet" href="css/jquery.cxcolor.css">
+<style>
+body{padding:20px;background:#ddd;font:14px/1.7 Arial,"\5b8b\4f53";}
+h1,h2,h3{font:bold 36px/1 "\5fae\8f6f\96c5\9ed1";}
+h2{font-size:20px;}
+h3{font-size:16px;}
+fieldset{margin:1em 0;}
+fieldset legend{font:bold 14px/2 "\5fae\8f6f\96c5\9ed1";}
+a{color:#06f;text-decoration:none;}
+a:hover{color:#00f;}
+
+.wrap{width:600px;margin:0 auto;padding:20px 40px;border:2px solid #999;border-radius:8px;background:#fff;box-shadow:0 0 10px rgba(0,0,0,0.5);}
+</style>
+</head>
+<body>
+<div class="wrap">
+	<h1>jQuery cxColor 颜色选择器</h1>
+
+	<h2>示例</h2>
+	<form action="getcolor.php" method="post">
+		<fieldset>
+			<legend>默认</legend>
+			<label for="color_a">选择颜色：</label><input id="color_a" name="mycolor" type="text" class="input_cxcolor" readonly>　<button type="submit">提 交</button>
+		</fieldset>
+	</form>
+
+	<fieldset>
+		<legend>在参数中设置默认值</legend>
+		<label for="color_b">选择颜色：</label><input id="color_b" type="text" class="input_cxcolor" readonly>
+	</fieldset>
+
+	<fieldset>
+		<legend>在 value 中有默认值</legend>
+		<label for="color_c">选择颜色：</label><input id="color_c" type="text" class="input_cxcolor" readonly value="#ff0000">
+	</fieldset>
+
+	<fieldset>
+		<legend>API 示例</legend>
+		<p>标题：<input id="title" type="text" value="标题颜色跟随变化"></p>
+		<p><label for="color_d">颜色：</label><input id="color_d" type="text" class="input_cxcolor" readonly value="#009900"></p>
+		<p id="acts">
+			<button class="cxbtn" type="button" data-act="show">显示面板</button>
+			<button class="cxbtn" type="button" data-act="color" value="#ff0000">设置为红色</button>
+			<button class="cxbtn" type="button" data-act="color" value="#0000ff">设置为蓝色</button>
+			<button class="cxbtn" type="button" data-act="reset">默认颜色</button>
+			<button class="cxbtn" type="button" data-act="get">获取当前颜色</button>
+			<button class="cxbtn" type="button" data-act="clear">清除颜色</button>
+		</p>
+	</fieldset>
+
+	<h2>文档</h2>
+	<ul>
+		<li><a target="_blank" href="https://github.com/ciaoca/cxColor">Github</a></li>
+		<li><a target="_blank" href="http://code.ciaoca.com/jquery/cxcolor/">中文文档</a></li>
+	</ul>
+	
+	
+</div>
+
+<script src="http://cdn.staticfile.org/jquery/1.7.2/jquery.min.js"></script>
+<script src="js/jquery.cxcolor.min.js"></script>
+<script>
+$('#color_a').cxColor();
+
+$('#color_b').cxColor({
+	color:'#0066ff'
+});
+
+$('#color_c').cxColor();
+
+(function(){
+	var color = $('#color_d');
+	var title = $('#title');
+	var acts = $('#acts');
+
+	color.bind('change', function(){
+		title.css('color', this.value)
+	});
+
+	color.cxColor(function(api){
+		acts.on('click', 'button', function(){
+			var _this = $(this);
+			var _val = _this.data('act');
+
+			switch (_val){
+				case 'show':
+					api.show();
+					break;
+				case 'hide':
+					api.hide();
+					break;
+				case 'color':
+					api.color(this.value);
+					break;
+				case 'reset':
+					api.reset();
+					break;
+				case 'get':
+					alert('当前选择的颜色值为：' + api.color());
+					break;
+				case 'clear':
+					api.clear();
+					break;
+			};
+		});
+
+		$('#btn_red').bind('click',function(){
+			api.color('#ff0000');
+		});
+
+		$('#btn_show').bind('click',function(){
+			api.show();
+		});
+	});
+})();
+</script>
+</body>
+</html>
